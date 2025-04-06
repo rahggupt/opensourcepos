@@ -1,0 +1,22 @@
+FROM jekkos/opensourcepos:master
+
+# Remove any problematic environment variables
+ENV GROUPID=1000
+ENV USERID=1000
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Skip the problematic user/group creation commands
+# Instead, use the existing www-data user
+
+# Set environment variables for the application
+ENV CI_ENVIRONMENT=production
+ENV FORCE_HTTPS=true
+ENV PHP_TIMEZONE=UTC
+
+# The database configuration will be provided via environment variables
+
+# Ensure proper permissions for Apache
+RUN chown -R www-data:www-data /app
+
+# Use Apache's foreground process as the main container process
+CMD ["apache2-foreground"]
